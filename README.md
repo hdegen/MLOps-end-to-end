@@ -1,2 +1,2 @@
-# MLOps-end-to-end
-Full Machine Learning lifecycle with MLFlow, DVC, Docker, Kubernetes and Airflow on the cloud (AWS)
+# MLOps project
+Full inital pipeline project to create and maintain full lifecycle of ML models

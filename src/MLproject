@@ -1,0 +1,38 @@
+name: multistep_prj
+
+conda_env: conda.yaml
+
+entry_points:
+  run_test:
+    command: "python test.py"
+  
+  make_data:
+    parameters:
+      environment: {type: str, default: "local"}
+    command: "python data/make_data.py --environment {environment}"
+
+  build_features:
+    parameters:
+      environment: {type: str, default: "local"}
+    command: "python features/build_features.py --environment {environment}"
+    
+  train_model:
+    parameters:
+      environment: {type: str, default: "local"}
+      name: {type: str, default: ""}
+    command: "python models/train_model.py --environment {environment} --name {name}"
+
+  predict:
+    parameters:
+      environment: {type: str, default: "local"}
+      name: {type: str, default: ""}
+      model: {type: str, default: "latest"}
+    command: "python models/predict.py --environment {environment} --name {name} --model {model}"
+
+  main:
+    parameters:
+      environment: {type: str, default: "local"}
+      step: {type: str, default: "full"}
+    command: "python main.py --environment {environment} --step {step}"
+    
+

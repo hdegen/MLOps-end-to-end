@@ -1,0 +1,1 @@
+docker run -it mlops_project python main.py
