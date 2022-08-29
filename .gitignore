@@ -1,0 +1,7 @@
+.ipynb_checkpoints
+__pycache__
+src/mlruns
+src/local.egg-info
+src/dist
+src/build
+*.csv
