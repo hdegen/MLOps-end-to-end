@@ -89,7 +89,7 @@ Here is where the magic happens!
 
 ![MLFlow_ui](.img/MLFlow_ui.png)
 
-Note that we can check all of the metrics, parameters (including the tracking of the versioned trained data), and the model saved in a given run. If you click in the link of the sklearn model you will be redirected to the managemente of that model, where you could deploy into production and serve the model to be used.
+Note that we can check all of the metrics, parameters (including the tracking of the versioned trained data), and the model saved in a given run. If you click in the link of the sklearn model you will be redirected to the management of that model, where you could deploy into production and serve the model to be used.
 
 ## Data versioning
 [DVC](https://dvc.org/) is currently the best solution to data versioning since it has a great integration with code versioning tools as github. The whole idea behing data versioning is the fact that sometimes you will need to check your original training data to check differences with other models and other problems. If you do not have your original data it could make it impossible to find out why that was a great model and why you are not being able to reproduce those results, sometimes bringing different results/metrics and sometimes could be hard to understand why. However, if the dataset is always stored, it is easy to check if that could be something related to featurization or some procedure that you had applied to the dataset.
