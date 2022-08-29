@@ -69,8 +69,12 @@ E aqui voce pode registrar um modelo para deploy, mas neste caso voce precisa qu
 
 In that way, DVC is a great tool but serves maily to versionate your data in a storage, keeping tracking of the models and data. However, if you are using MLFlow and you can create a copy of your data and save it to the model parameters, we can mantain the tracking just using MLFlow, making it not completely necessary to use DVC. We can simply create a directory in the Simple Storage Service (S3) and save the trained data there, keeping track of the models and data by using MLFlow, without the need of aditional packages.
 
+![data_versioning](.img/dvc_code.png)
+
 ## Containerization
 The idea of creating images is that the project can be run in any OS without further compatibility problems. That means that you can run in your linux distribution and get the same results of your team member that uses another distribution or use windows. For this purpose, this template contains a DockerFile to create images of the project, allowing you to create images of the project and store in repositories such as Elastic Container Registry ([ECR](https://aws.amazon.com/ecr/)) and making it easier to use these images in a task scheduler, such as airflow or other built in tools. The base of the project is a conda image based on alpine distribution to be a little bit lightweigh. The process copy the src folder that contains everything needed to run the full pipeline. Just note that busybox 1.35 has critical vulnerabilities in its stable version ([1](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-25032),[2](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-28928)), having the need to update it to the [latest unstable version](https://pkgs.alpinelinux.org/package/edge/main/x86/busybox).
+
+![docker](.img/docker.png)
 
 The idea is that for each open PR, you have a jenkins pipeline that build this image and deploy it in your ECR, in a way that as soon as it is done it is already ready to be consumed by the job scheduler.
 
