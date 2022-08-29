@@ -36,37 +36,56 @@ One could easily say that for the purpose of pipelines we could have used sagema
 
 ![MLProject](.img/MLProject.png)
 
-The code that will be responsible for calling each of these steps is the main function. Click is being used for argument parsing and you can see that it is possible to run the project in 3 environments: local, dev and prod. Local is exactly what it means, when you want to test everything locally. Dev means that you will use your AWS credentials associated to you development account and prod to you Production account.
+The code that will be responsible for calling each of these steps is the main function. Each call within a current active MLFlow call creates a "subjob", and all of the parameters are saved separately. Click has been used for argument parsing and you can see that it is possible to run the project in 3 environments: local, dev and prod. Local means when you want to test everything locally. Dev means that you will use your AWS credentials associated to you development account and prod to you Production account.
 
 ![main](.img/main.png)
 
-Remember to set the right buckets within the library:
+Remember to set the right buckets within the library, and to run locally just let the bucket receive an empty string:
 
 ![bucket](.img/bucket.png)
  
-O arquivo main.py possui novamente todos os passos dessa pipeline e chama esses comandos na sequência em que a pipeline deve ser rodada utilizando as funcionalidades de chamada do MLFlow:
-Cada chamada dentro de um job ativo cria um subjob, e todos os parâmetros que forem salvos são acoplados ao job principal. Para rodar, basta chamar a função main do python com os parâmetros desejados. Para o ENADE existem inúmeros parâmetros de entradas, mas para um projeto generalista não necessariamente, por isso apenas alguns casos de parâmetros foram incluídos.
-Para iniciar, voce precisa instalar o mlflow via pip:
+To begin, you will need to install MLFlow through pip:
+```
 pip install mlflow
-E tambem na sua base do conda:
+```
+And also in your conda base:
+```
 conda install -c conda-forge mlflow
-Isso deve ser o suficiente, visto que o proprio mlflow ira criar um environment do conda para rodar o codigo. Para rodar o seu projeto, basta entrar na pasta src e executar a chamada da funcao main:
+```
+
+To run your project, you just need to cd into your source code folder and call your main function:
+```
 python main.py --parameter {parameter}
-Todos os parametros possuem um valor default que foi setado no arquivo MLproject, portanto caso queira utilizar com todos os valores default basta efetuar a chamada limpa da funcao main:
+```
+As the parameters have their own set parameters in the MLproject file you can just test with a clean call:
+```
 python main.py
-Caso queira rodar passos separadamente, basta chamar cada passo separadamente:
+```
+In case you want to run step by step of the pipeline, instead of the full pipeline at once, you can just call it separately:
+```
 python main.py --step "make_data"
 python main.py --step "feat_data"
 python main.py --step "train_model"
-
 python main.py --step "predict"
-
-Para setar em qual ambiente o script deve rodar, apenas defina a variavel de ambiente:
+```
+To set the environment you can just use the right parameter, such as:
+```
 python main.py --step "make_data" --environment "dev"
-Lembre-se de que para rodar no ambiente da aws as suas credenciais daquele ambiente ja devem ter sido exportadas para o seu terminal.
-Ao rodar a pipeline, o MLFlow criara uma pasta chamada mlruns dentro de src para armazenar todos os parametros que foram definidos no codigo. Para visualizar os indicadores, apenas rode:
+```
+
+To let MLFlow know which parameter you want it to save, you can just call the mlflow.log_param() for parameters and mlflow.log_metric() for metrics of the model. The model itself is saved using, for example, mlflow.sklearn.log_model():
+
+![MLFlow_params](.img/MLFlow_params.png)
+
+As you will need to create your own database for MLFlow and you may want to just try it locally, I let available some functions to imitate the deploy, since the real deploy and model serving is done via MLFlow UI, and you will not have this functionality untill create a server/database to your MLFlow. You can just look at the code how it has been deployed and how the model has been loaded.
+
+To look at the MLFlow UI, you can just run:
+```
 mlflow ui
-E acesse seu localhost:5000 para visualizar a pagina:
+```
+and access your localhost:5000.
+
+
 Note que conseguimos visualizar as metricas:
 O dado versionado (explicacao no bloco seguinte):
 E o modelo:
