@@ -28,6 +28,7 @@ What you will find is the folders in the root directory:
 
 ## Environment
 To avoid package compatibility problems you can create a conda environment from the conda.yaml file to centralize all of the packages used and make sure all of the members can work withouth any problems. Just remember that to run this template on the cloud you will need to export your aws credentials to your terminal before and make sure to install [aws-cli 2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html). If you just want to play around just use the environment as "local" and you will be fine!
+
 ![conda](.img/conda.png)
 
 ## ML Pipeline
