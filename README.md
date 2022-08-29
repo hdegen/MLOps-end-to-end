@@ -32,8 +32,17 @@ To avoid package compatibility problems you can create a conda environment from 
 ![conda](.img/conda.png)
 
 ## ML Pipeline
-Para evitar ficar preso nas soluções já desenhadas da AWS, decidiu-se criar as pipelines deste template baseado no MLFlow. O MLFlow nos fornece um ambiente centralizado e fácil de registro, manutenção e reprodução de treinos e resultados de experimentos de ML, permitindo um deploy de modelos de forma muito simples. Ele permite uma fácil leitura e visualizacao de todos os treinos realizados, parâmetros e organização de forma que fica fácil encontrar e determinar os melhores modelos. Ele também já possui nativamente uma ótima integração com o conda.
-A estrutura de arquivos e códigos para utilização do MLFlow é bem clara e objetiva. Existe um arquivo chamado MLproject onde você configura o nome do arquivo do conda para ser utilizado, e todos os entry points que o MLFlow vai ter, juntamente com seus parâmetros. Aqui são definidos todos os passos da pipeline e a funcao principal, responsavel por estruturar os chamados de cada passo.
+One could easily say that for the purpose of pipelines we could have used sagemaker and their solutions. However, to avoid being locked in in the providers solutions, the project was based in [MLFlow](https://mlflow.org/). MLFlow provides us a centralized environment with easy model registry and deployment, easy model tracking and reproductibility of the ML trainings and experiments. It makes it possible to easily visualize all of our trainings, all of the output parameters and results of the model trainings, in a way that is easy to select and find the best models. As it has a great integration with anaconda environments, MLFlow will use conda.yaml to build its own environment. The code structure to use MLFlow is clear and objective. You will need a file called MLProject where you will add the name of your conda.yaml file and all of the entry points of the project, alongside with their parameters. Here is where we define the steps of the pipeline and the main function.
+
+![MLProject](.img/MLProject.png)
+
+The code that will be responsible for calling each of these steps is the main function. Click is being used for argument parsing and you can see that it is possible to run the project in 3 environments: local, dev and prod. Local is exactly what it means, when you want to test everything locally. Dev means that you will use your AWS credentials associated to you development account and prod to you Production account.
+
+![main](.img/main.png)
+
+Remember to set the right buckets within the library:
+
+![bucket](.img/bucket.png)
  
 O arquivo main.py possui novamente todos os passos dessa pipeline e chama esses comandos na sequência em que a pipeline deve ser rodada utilizando as funcionalidades de chamada do MLFlow:
 Cada chamada dentro de um job ativo cria um subjob, e todos os parâmetros que forem salvos são acoplados ao job principal. Para rodar, basta chamar a função main do python com os parâmetros desejados. Para o ENADE existem inúmeros parâmetros de entradas, mas para um projeto generalista não necessariamente, por isso apenas alguns casos de parâmetros foram incluídos.
