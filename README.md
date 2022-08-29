@@ -27,7 +27,7 @@ What you will find is the folders in the root directory:
 To avoid package compatibility problems you can create a conda environment from the conda.yaml file to centralize all of the packages used and make sure all of the members can work withouth any problems. Just remember that to run this template on the cloud you will need to export your aws credentials to your terminal before and make sure to install [aws-cli 2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html). If you just want to play around just use the environment as "local" and you will be fine!
 
 ## ML Pipeline
-Para evitar ficar preso nas soluções já desenhadas da AWS, decidimos criar as pipelines deste template baseado no MLFlow. O MLFlow nos fornece um ambiente centralizado e fácil de registro, manutenção e reprodução de treinos e resultados de experimentos de ML, permitindo um deploy de modelos de forma muito simples. Ele permite uma fácil leitura e visualizacao de todos os treinos realizados, parâmetros e organização de forma que fica fácil encontrar e determinar os melhores modelos. Ele também já possui nativamente uma ótima integração com o conda.
+Para evitar ficar preso nas soluções já desenhadas da AWS, decidiu-se criar as pipelines deste template baseado no MLFlow. O MLFlow nos fornece um ambiente centralizado e fácil de registro, manutenção e reprodução de treinos e resultados de experimentos de ML, permitindo um deploy de modelos de forma muito simples. Ele permite uma fácil leitura e visualizacao de todos os treinos realizados, parâmetros e organização de forma que fica fácil encontrar e determinar os melhores modelos. Ele também já possui nativamente uma ótima integração com o conda.
 A estrutura de arquivos e códigos para utilização do MLFlow é bem clara e objetiva. Existe um arquivo chamado MLproject onde você configura o nome do arquivo do conda para ser utilizado, e todos os entry points que o MLFlow vai ter, juntamente com seus parâmetros. Aqui são definidos todos os passos da pipeline e a funcao principal, responsavel por estruturar os chamados de cada passo.
  
 O arquivo main.py possui novamente todos os passos dessa pipeline e chama esses comandos na sequência em que a pipeline deve ser rodada utilizando as funcionalidades de chamada do MLFlow:
@@ -66,6 +66,18 @@ In that way, DVC is a great tool but serves maily to versionate your data in a s
 ## Containerization
 The idea of creating images is that the project can be run in any OS without further compatibility problems. That means that you can run in your linux distribution and get the same results of your team member that uses another distribution or use windows. For this purpose, this template contains a DockerFile to create images of the project, allowing you to create images of the project and store in repositories such as Elastic Container Registry ([ECR](https://aws.amazon.com/ecr/)) and making it easier to use these images in a task scheduler, such as airflow or other built in tools. The base of the project is a conda image based on alpine distribution to be a little bit lightweigh. The process copy the src folder that contains everything needed to run the full pipeline. Just note that busybox 1.35 has critical vulnerabilities in its stable version ([1](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-25032),[2](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-28928)), having the need to update it to the [latest unstable version](https://pkgs.alpinelinux.org/package/edge/main/x86/busybox).
 The idea is that for each open PR, you have a jenkins pipeline that build this image and deploy it in your ECR, in a way that as soon as it is done it is already ready to be consumed by the job scheduler.
+If you want to test locally and are not sure how to use docker, just run the docker build script:
+```
+./build_docker.sh
+```
+And run it, locally:
+```
+./run_docker.sh
+```
+or using your aws credentials to run using aws storage and data:
+```
+./run_docker_cloud.sh
+```
 
 ## Scheduler: [Apache Airflow](https://airflow.apache.org/)
 Inside the root folder of this template there is a DAG example to be executed on airflow (dag.py). You can [install airflow locally](https://www.astronomer.io/events/recaps/official-airflow-helm-chart/) to test this template and all of its features but you will really want to set up [kubernetes on the cloud](https://aws.amazon.com/kubernetes/?nc1=h_ls) and make airflow the scheduler of the cloud jobs. This will help you to be able to use cloud machines that will give you the best performance, especially if you have a large dataset that can not be handled locally or need to train neural networks using GPUs.
