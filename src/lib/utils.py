@@ -17,7 +17,7 @@ F1_THRESHOLD = 0.8
 def get_bucket_from_env(environment):
     bucket = ""
     if (environment != 'local'):
-        bucket = f"s3://ktech-datalake-refined-{'data' if environment == 'prod' else 'nonprod'}/"
+        bucket = f"s3://bucket-{environment}/"
     return bucket
 
 def get_pyathena_connector(bucket,region,pd_cursor=False):
