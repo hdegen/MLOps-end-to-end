@@ -77,20 +77,19 @@ To let MLFlow know which parameter you want it to save, you can just call the ml
 
 ![MLFlow_params](.img/MLFlow_params.png)
 
-As you will need to create your own database for MLFlow and you may want to just try it locally, I let available some functions to imitate the deploy, since the real deploy and model serving is done via MLFlow UI, and you will not have this functionality untill create a server/database to your MLFlow. You can just look at the code how it has been deployed and how the model has been loaded.
+As you will need to create your own database for MLFlow and you may want to just try it locally, I let available some functions to imitate the deploy, since the real deploy and model serving is done via MLFlow UI, and you will not have this functionality untill creating a server/database to your MLFlow. You can just look at the code how it has been deployed and how the model has been loaded.
 
-To look at the MLFlow UI, you can just run:
+To check the MLFlow UI, you can just run:
 ```
 mlflow ui
 ```
 and access your localhost:5000.
 
+Here is where the magic happens!
 
-Note que conseguimos visualizar as metricas:
-O dado versionado (explicacao no bloco seguinte):
-E o modelo:
-Ao clicar no link do modelo do sklearn, voce sera redirecionado para a parte de gerenciamento daquele modelo:
-E aqui voce pode registrar um modelo para deploy, mas neste caso voce precisa que o MLFlow esteja conectado a algum banco de dados, caso contrario o mlflow nao conseguira registrar o modelo e consequentemente fazer o deploy. Para possiveis testes locais, foi adicionado uma funcao que copia o modelo para sua pasta local ou para o s3 de forma que ele pode ser obtido quando queremos utiliza-lo para previsoes. Quando o MLFlow estiver online atualizaremos esse tutorial para tambem receber o modelo via model registry.
+![MLFlow_ui](.img/MLFlow_ui.png)
+
+Note that we can check all of the metrics, parameters (including the tracking of the versioned trained data), and the model saved in a given run. If you click in the link of the sklearn model you will be redirected to the managemente of that model, where you could deploy into production and serve the model to be used.
 
 ## Data versioning
 [DVC](https://dvc.org/) is currently the best solution to data versioning since it has a great integration with code versioning tools as github. The whole idea behing data versioning is the fact that sometimes you will need to check your original training data to check differences with other models and other problems. If you do not have your original data it could make it impossible to find out why that was a great model and why you are not being able to reproduce those results, sometimes bringing different results/metrics and sometimes could be hard to understand why. However, if the dataset is always stored, it is easy to check if that could be something related to featurization or some procedure that you had applied to the dataset.
