@@ -69,10 +69,10 @@ E aqui voce pode registrar um modelo para deploy, mas neste caso voce precisa qu
 
 In that way, DVC is a great tool but serves maily to versionate your data in a storage, keeping tracking of the models and data. However, if you are using MLFlow and you can create a copy of your data and save it to the model parameters, we can mantain the tracking just using MLFlow, making it not completely necessary to use DVC. We can simply create a directory in the Simple Storage Service (S3) and save the trained data there, keeping track of the models and data by using MLFlow, without the need of aditional packages.
 
-Lib:
+Lib example:
 ![data_versioning_lib](.img/dvc_hash.png)
 
-Call:
+Call example:
 ![data_versioning](.img/dvc_code.png)
 
 ## Containerization
